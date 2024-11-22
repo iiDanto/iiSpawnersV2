@@ -1,0 +1,4 @@
+name: iiSpawnersV2
+version: '1.0-SNAPSHOT'
+main: iiDanto.iiSpawnersV2.IiSpawnersV2
+api-version: '1.20'
