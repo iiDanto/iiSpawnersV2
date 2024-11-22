@@ -1,6 +1,5 @@
 package iiDanto.iiSpawnersV2.db;
 
-import com.google.common.cache.LoadingCache;
 import iiDanto.iiSpawnersV2.utils.MathUtils;
 import org.bukkit.Location;
 
@@ -9,7 +8,7 @@ import java.sql.*;
 public class SpawnerDatabase {
     private final Connection connection;
 
-    public SpawnerDatabase(String path, MathUtils mathUtils) throws SQLException {
+    public SpawnerDatabase(String path) throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite" + path);
         try (
                 Statement statement = connection.createStatement()) {
@@ -28,6 +27,7 @@ public class SpawnerDatabase {
             connection.close();
         }
     }
+    // UPDATE
 
     public void addSpawner(Location location, String type) throws SQLException{
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO spawners (location, type) VALUES (?, ?)")){
