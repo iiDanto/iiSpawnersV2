@@ -33,6 +33,4 @@ public final class IiSpawnersV2 extends JavaPlugin {
             ex.printStackTrace();
         }
     }
-
-    //update
 }
