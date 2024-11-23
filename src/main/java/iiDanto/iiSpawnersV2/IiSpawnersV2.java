@@ -1,5 +1,6 @@
 package iiDanto.iiSpawnersV2;
 
+import iiDanto.iiSpawnersV2.commands.GiveSpawnerCommand;
 import iiDanto.iiSpawnersV2.db.SpawnerDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +23,7 @@ public final class IiSpawnersV2 extends JavaPlugin {
             getLogger().warning("Failed to connect to the database!" + ex.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
         }
-
+        getCommand("givespawner").setExecutor(new GiveSpawnerCommand());
     }
 
     @Override
