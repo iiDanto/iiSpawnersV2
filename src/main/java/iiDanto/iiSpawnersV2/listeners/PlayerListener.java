@@ -2,13 +2,16 @@ package iiDanto.iiSpawnersV2.listeners;
 
 import iiDanto.iiSpawnersV2.IiSpawnersV2;
 import iiDanto.iiSpawnersV2.db.SpawnerDatabase;
+import iiDanto.iiSpawnersV2.gui.SpawnerGUI;
 import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -19,11 +22,13 @@ public class PlayerListener implements Listener {
     private final SpawnerDatabase db;
     private final SpawnerUtils su;
     private final IiSpawnersV2 plugin;
+    private final SpawnerGUI sgui;
 
-    public PlayerListener(SpawnerDatabase db, SpawnerUtils su, IiSpawnersV2 plugin) {
+    public PlayerListener(SpawnerDatabase db, SpawnerUtils su, IiSpawnersV2 plugin, SpawnerGUI sgui) {
         this.db = db;
         this.su = su;
         this.plugin = plugin;
+        this.sgui = sgui;
     }
 
     @EventHandler
@@ -40,11 +45,19 @@ public class PlayerListener implements Listener {
     public void onRightClickOnBlock(PlayerInteractEvent e) throws SQLException{
         if (e.getAction().isRightClick()){
             if (db.isSpawner(e.getClickedBlock().getLocation())){
-                // TODO: Gui handling
-                e.getPlayer().sendMessage("Spawner detected");
+                sgui.openSpawnerGUI(e.getPlayer(), e.getClickedBlock().getLocation());
             }
         }
     }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) throws SQLException{
+        if (e.getView().getTitle().contains(ChatColor.GRAY + "" + ChatColor.BOLD + "spawner(s)")){
+            // TODO: Get passed variables from gui.
+            // TODO: Handle gui clicking: claiming money, items, exp, etc.
+        }
+    }
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) throws SQLException{
         if (db.isSpawner(e.getBlock().getLocation())){
