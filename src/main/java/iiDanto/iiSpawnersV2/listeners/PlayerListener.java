@@ -15,6 +15,6 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e){
-        if (e.getBlock().equals())
+        // TODO: Check if it's a spawner, if so add the spawner to the database.
     }
 }
