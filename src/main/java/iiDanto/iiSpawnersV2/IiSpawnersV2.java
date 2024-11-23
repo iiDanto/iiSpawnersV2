@@ -2,14 +2,18 @@ package iiDanto.iiSpawnersV2;
 
 import iiDanto.iiSpawnersV2.commands.GiveSpawnerCommand;
 import iiDanto.iiSpawnersV2.db.SpawnerDatabase;
+import iiDanto.iiSpawnersV2.listeners.PlayerListener;
+import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.util.Timer;
 
 public final class IiSpawnersV2 extends JavaPlugin {
 
     private SpawnerDatabase spawnerDatabase;
+    private SpawnerUtils SpawnerUtils;
 
     @Override
     public void onEnable() {
@@ -24,6 +28,7 @@ public final class IiSpawnersV2 extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         saveDefaultConfig();
+        getServer().getPluginManager().registerEvents(new PlayerListener(spawnerDatabase, SpawnerUtils), this);
     }
 
         @Override

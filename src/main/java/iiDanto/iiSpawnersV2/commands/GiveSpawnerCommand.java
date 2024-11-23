@@ -2,6 +2,8 @@ package iiDanto.iiSpawnersV2.commands;
 
 import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,37 +39,35 @@ public class GiveSpawnerCommand implements CommandExecutor {
                     break;
                 case 2:
                     String type1 = args[1];
-                    String player = args[0];
-                    Player p1 = Bukkit.getPlayer(player);
-                    if (p1 != null){
-                        if (spawnerlist.contains(type1)){
-                            spawnerUtils.giveSpawner(p1, type1, 1);
-                        } else {
-                            p.sendRichMessage("<#ff0000>Invalid spawner type!");
-                            p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
-                            return true;
-                        }
+                    OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                    if (target == null || target.getName() == null) {
+                        p.sendMessage(ChatColor.RED + "Player not found!");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                        return true;
+                    }
+                    if (spawnerlist.contains(type1)){
+                        spawnerUtils.giveSpawner(target.getPlayer(), type1, 1);
                     } else {
-                        p.sendRichMessage("<#ff0000>Invalid Player Argument!");
-                        p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0F, 1.0f);
+                        p.sendRichMessage("<#ff0000>Invalid spawner type!");
+                        p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                        return true;
                     }
                     break;
                 case 3:
-                    String plrstr = args[0];
                     String spwnrtype = args[1];
                     Integer amtint = Integer.parseInt(args[2]);
-                    Player p2 = Bukkit.getPlayer(plrstr);
-                    if (p2 != null){
-                        if (spawnerlist.contains(spwnrtype)){
-                            spawnerUtils.giveSpawner(p2, spwnrtype, amtint);
-                        } else {
-                            p.sendRichMessage("<#ff0000>Invalid spawner type!");
-                            p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
-                            return true;
-                        }
+                    OfflinePlayer target1 = Bukkit.getOfflinePlayer(args[0]);
+                    if (target1 == null || target1.getName() == null) {
+                        p.sendMessage(ChatColor.RED + "Player not found!");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                        return true;
+                    }
+                    if (spawnerlist.contains(spwnrtype)){
+                        spawnerUtils.giveSpawner(target1.getPlayer(), spwnrtype, amtint);
                     } else {
-                        p.sendRichMessage("<#ff0000>Invalid Player Argument!");
-                        p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0F, 1.0f);
+                        p.sendRichMessage("<#ff0000>Invalid spawner type!");
+                        p.playSound(p, Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                        return true;
                     }
             }
         }
