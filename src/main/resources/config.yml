@@ -1,8 +1,15 @@
 options:
-  spawners:
+  money:
     pig: 5
     cow: 10
     zombie: 17
     skeleton: 22
     creeper: 32
     enderman: 99
+  exp:
+    pig: 1
+    cow: 3
+    zombie: 5
+    skeleton: 12
+    creeper: 21
+    enderman: 42

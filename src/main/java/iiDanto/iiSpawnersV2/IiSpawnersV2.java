@@ -28,7 +28,7 @@ public final class IiSpawnersV2 extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         saveDefaultConfig();
-        getServer().getPluginManager().registerEvents(new PlayerListener(spawnerDatabase, SpawnerUtils), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(spawnerDatabase, SpawnerUtils, this), this);
     }
 
         @Override

@@ -4,6 +4,8 @@ import iiDanto.iiSpawnersV2.utils.MathUtils;
 import org.bukkit.Location;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnerDatabase {
     private final Connection connection;
@@ -27,7 +29,6 @@ public class SpawnerDatabase {
             connection.close();
         }
     }
-    // UPDATE
 
     public void addSpawner(Location location, String type) throws SQLException{
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO spawners (location, type) VALUES (?, ?)")){
@@ -40,6 +41,7 @@ public class SpawnerDatabase {
     public void removeSpawner(Location location) throws SQLException{
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM spawners WHERE location = ?")){
             preparedStatement.setString(1, MathUtils.locationToString(location));
+            preparedStatement.executeUpdate();
         }
     }
 
@@ -56,6 +58,7 @@ public class SpawnerDatabase {
         String loc = MathUtils.locationToString(location);
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE spawners SET stack = ? WHERE location = ?")){
             preparedStatement.setInt(1, getStack(location) + integer);
+            preparedStatement.executeUpdate();
         }
     }
 
@@ -68,5 +71,68 @@ public class SpawnerDatabase {
         }
     }
 
+    public void setStack(Location location, Integer amt) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE spawners SET stack = ? WHERE location = ?")){
+            preparedStatement.setInt(1, amt);
+            preparedStatement.setString(2, loc);
+            preparedStatement.executeUpdate();
+        }
+    }
 
+    public String getType(Location location) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT type FROM spawners WHERE location = ?")){
+            preparedStatement.setString(1, loc);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.getString("type");
+        }
+    }
+
+    public void setMoney(Location location, Integer money) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE spawners SET money = ? WHERE location = ?")){
+            preparedStatement.setInt(1, money);
+            preparedStatement.setString(2, loc);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public List<Location> getAllSpawnerLocations() throws SQLException {
+        List<Location> spawnerLocations = new ArrayList<>();
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT location FROM spawners")) {
+            while (resultSet.next()) {
+                spawnerLocations.add(MathUtils.str2loc(resultSet.getString("location")));
+            }
+        }
+        return spawnerLocations;
+    }
+
+    public int getMoney(Location location) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT money FROM spawners WHERE location = ?")){
+            preparedStatement.setString(1, loc);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.getInt("money");
+        }
+    }
+
+    public int getEXP(Location location) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT exp FROM spawners WHERE location = ?")){
+            preparedStatement.setString(1, loc);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.getInt("exp");
+        }
+    }
+
+    public void setEXP(Location location, Integer amt) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE spawners SET exp = ? WHERE location = ?")){
+            preparedStatement.setInt(1, amt);
+            preparedStatement.setString(2, loc);
+            preparedStatement.executeUpdate();
+        }
+    }
 }
