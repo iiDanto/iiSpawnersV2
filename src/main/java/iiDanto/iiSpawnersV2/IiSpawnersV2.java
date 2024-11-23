@@ -14,25 +14,26 @@ public final class IiSpawnersV2 extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
-            if (!getDataFolder().exists()){
+            if (!getDataFolder().exists()) {
                 getDataFolder().mkdirs();
             }
             spawnerDatabase = new SpawnerDatabase(getDataFolder().getAbsolutePath() + "/iispawners.db");
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             getLogger().warning("Failed to connect to the database!" + ex.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
         }
-        getCommand("givespawner").setExecutor(new GiveSpawnerCommand());
+        saveDefaultConfig();
     }
 
-    @Override
-    public void onDisable() {
-        try{
-            spawnerDatabase.closeConnection();
-        }catch (SQLException ex){
-            ex.printStackTrace();
+        @Override
+        public void onDisable () {
+            try {
+                spawnerDatabase.closeConnection();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+        // UPDATE
     }
-    // UPDATE
-}
+

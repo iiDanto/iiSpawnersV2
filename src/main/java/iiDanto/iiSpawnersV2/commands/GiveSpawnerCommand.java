@@ -1,6 +1,5 @@
 package iiDanto.iiSpawnersV2.commands;
 
-import iiDanto.iiSpawnersV2.IiSpawnersV2;
 import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -9,9 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

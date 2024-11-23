@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 public class SpawnerUtils {
     private final IiSpawnersV2 plugin;
-    private final NamespacedKey key;
+    public final NamespacedKey key;
 
     public SpawnerUtils(IiSpawnersV2 plugin) {
         this.plugin = plugin;
