@@ -67,4 +67,6 @@ public class SpawnerDatabase {
             return resultSet.getInt("stack");
         }
     }
+
+
 }
