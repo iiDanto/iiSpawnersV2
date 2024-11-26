@@ -2,6 +2,7 @@ package iiDanto.iiSpawnersV2;
 
 import iiDanto.iiSpawnersV2.commands.GiveSpawnerCommand;
 import iiDanto.iiSpawnersV2.db.SpawnerDatabase;
+import iiDanto.iiSpawnersV2.gui.SpawnerGUI;
 import iiDanto.iiSpawnersV2.listeners.PlayerListener;
 import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ public final class IiSpawnersV2 extends JavaPlugin {
 
     private SpawnerDatabase spawnerDatabase;
     private SpawnerUtils SpawnerUtils;
+    private SpawnerGUI spawnerGUI;
 
     @Override
     public void onEnable() {
@@ -28,7 +30,8 @@ public final class IiSpawnersV2 extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         saveDefaultConfig();
-        getServer().getPluginManager().registerEvents(new PlayerListener(spawnerDatabase, SpawnerUtils, this), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(spawnerDatabase, SpawnerUtils, this, spawnerGUI), this);
+        getCommand("givespawner").setExecutor(new GiveSpawnerCommand());
     }
 
         @Override

@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PropertyPermission;
 
 public class SpawnerDatabase {
     private final Connection connection;
@@ -134,5 +135,13 @@ public class SpawnerDatabase {
             preparedStatement.setString(2, loc);
             preparedStatement.executeUpdate();
         }
+    }
+
+    public int getProcentFilled(Location location) throws SQLException{
+        String loc = MathUtils.locationToString(location);
+        int money = getMoney(location);
+        int stack = getStack(location);
+        int procentfilled = money / (32783 * stack) * 100;
+        return procentfilled;
     }
 }

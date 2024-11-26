@@ -4,9 +4,11 @@ import iiDanto.iiSpawnersV2.IiSpawnersV2;
 import iiDanto.iiSpawnersV2.db.SpawnerDatabase;
 import iiDanto.iiSpawnersV2.gui.SpawnerGUI;
 import iiDanto.iiSpawnersV2.utils.SpawnerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -16,13 +18,16 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerListener implements Listener {
     private final SpawnerDatabase db;
     private final SpawnerUtils su;
     private final IiSpawnersV2 plugin;
     private final SpawnerGUI sgui;
+    public HashMap<UUID, Location> guiclicked = new HashMap<UUID, Location>();
 
     public PlayerListener(SpawnerDatabase db, SpawnerUtils su, IiSpawnersV2 plugin, SpawnerGUI sgui) {
         this.db = db;
@@ -46,6 +51,12 @@ public class PlayerListener implements Listener {
         if (e.getAction().isRightClick()){
             if (db.isSpawner(e.getClickedBlock().getLocation())){
                 sgui.openSpawnerGUI(e.getPlayer(), e.getClickedBlock().getLocation());
+                if (guiclicked.containsKey(e.getPlayer().getUniqueId())){
+                    guiclicked.remove(e.getPlayer().getUniqueId());
+                    guiclicked.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation());
+                } else {
+                    guiclicked.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation());
+                }
             }
         }
     }
@@ -53,8 +64,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) throws SQLException{
         if (e.getView().getTitle().contains(ChatColor.GRAY + "" + ChatColor.BOLD + "spawner(s)")){
-            // TODO: Get passed variables from gui.
-            // TODO: Handle gui clicking: claiming money, items, exp, etc.
+            if (e.getSlot() == 11){
+                e.getWhoClicked().sendMessage("You have " + db.getMoney(guiclicked.get(e.getWhoClicked().getUniqueId())));
+            }
         }
     }
 
